@@ -1,0 +1,2 @@
+# SettingScriptsForKondoB3M
+KONDOのB3Mの設定・動作確認用のscript
