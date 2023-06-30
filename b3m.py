@@ -4,7 +4,7 @@ import time
 baudrate = 2000000
 # baudrate = 1500000
 
-target_id = 1
+target_id = 0
 port = "/dev/ttyUSB0"
 
 b3m = serial.Serial(port, baudrate=baudrate, parity=serial.PARITY_NONE, timeout=0.5)
@@ -107,14 +107,15 @@ def B3m_Change_ID(servo_id, new_id):
         print("Change ID {} -> {}".format(servo_id, new_id))
     else:
         print("Change ID Failed!")
-    reData = B3M_Save_CMD(servo_id)
+    reData = B3M_Save_CMD(new_id)
     if reData:
         print("New ID Saved")
     else:
         print("Save Failed!")
 
 
-# change_baudrate(target_id, 2000000)
+# B3M_Change_Baudrate(target_id, 2000000)
+# B3m_Change_ID(target_id, 2)
 Move_Test(target_id)
 
 b3m.close()
