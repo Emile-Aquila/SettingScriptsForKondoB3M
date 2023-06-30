@@ -76,11 +76,11 @@ def Move_Test(servo_id):
     reData = B3M_Write_CMD(servo_id, 0x00, 0x28)
 
     # ID0、500msかけて5000(50度)の位置に移動する
-    reData = B3M_setPos_CMD(servo_id, 5000, 500)
-    time.sleep(2.0)  # サーボが到達するまで次の指示を待つ
+    # reData = B3M_setPos_CMD(servo_id, 5000, 500)
+    # time.sleep(2.0)  # サーボが到達するまで次の指示を待つ
 
-    reData = B3M_setPos_CMD(servo_id, -5000, 500)
-    time.sleep(2.0)  # サーボが到達するまで次の指示を待つ
+    # reData = B3M_setPos_CMD(servo_id, -5000, 500)
+    # time.sleep(2.0)  # サーボが到達するまで次の指示を待つ
 
     reData = B3M_setPos_CMD(servo_id, 0, 500)
     time.sleep(2.0)  # サーボが到達するまで次の指示を待つ
@@ -114,8 +114,24 @@ def B3m_Change_ID(servo_id, new_id):
         print("Save Failed!")
 
 
+def B3m_Set_Offset(servo_id, offset: float):
+    reData = B3M_Write_CMD(servo_id, 0x02, 0x28)  # 動作モード: Free
+    offset_value = round(offset * 100.0)
+    reData = B3M_Write_CMD(servo_id, offset_value, 0x09, 2)  # IDの設定を変更
+    if reData:
+        print("Set Offset {}".format(offset))
+    else:
+        print("Change ID Failed!")
+    reData = B3M_Save_CMD(servo_id)
+    if reData:
+        print("Offset Saved")
+    else:
+        print("Save Failed!")
+
+
 # B3M_Change_Baudrate(target_id, 2000000)
-# B3m_Change_ID(target_id, 2)
+# B3m_Change_ID(target_id, 3)
+B3m_Set_Offset(target_id, -4.1)
 Move_Test(target_id)
 
 b3m.close()
